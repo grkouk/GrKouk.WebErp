@@ -57,7 +57,7 @@ namespace GrKouk.WebErp
 
             app.UseAuthentication();
             app.UseAuthorization();
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MjIxNDI0QDMxMzcyZTM0MmUzMFl1dE1SNmJ1NXlCbWZicCsrVmNCL3JKN1U2MXlpcVB2TGZ5V2grN3pLbHc9");
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MjI3NDc3QDMxMzgyZTMxMmUzMFRkTmk4Mi9xUTk0OURxSTdXZkZyMFp4U3h6TTF2M2ltWGx4eE8xYnA4MEk9");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();

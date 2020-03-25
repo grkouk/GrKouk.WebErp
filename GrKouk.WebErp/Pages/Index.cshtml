@@ -4,13 +4,74 @@
     ViewData["Title"] = "Home page";
 }
 
-    <div class="text-center">
-        <h1 class="display-4">Welcome</h1>
+<div class="container">
+    <form method="post">
+        <div class="form-row">
+            <div class="form-group col-md-2">
+               
+                <ejs-datepicker id="datepicker"></ejs-datepicker>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-2">
 
-        <ej-date-picker id="datepicker" value="@DateTime.Now" locale="el-GR"></ej-date-picker>
+                <input id="currency" type="text" />
+            </div>
+        </div>
 
-        <ej-currency-text-box id="currency" show-rounded-corner="true" locale="el-GR"
-                              watermark-text="Amount per unit" 
-                              decimal-places="2" />
-        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    </div>
+
+       
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        datepicker = document.getElementById('datepicker').ej2_instances[0];
+        var L10n = ej.base.L10n;
+        var setCulture = new ej.base.setCulture();
+        L10n.load({
+            'el': {
+                'datepicker': {
+                    placeholder: 'Επιλέξτε ημερομηνία',
+                    today: 'σήμερα'
+                }
+            }
+        });
+        setCulture('fr-BE');
+        loadCultureFiles('el');
+        datepicker.locale = 'el';
+        // Render the Currency Textbox
+        var currency = new ej.inputs.NumericTextBox({
+            
+            locale:'el-GR',
+            value: 100
+        });
+        currency.appendTo('#currency');
+
+    });
+
+    function loadCultureFiles(name) {
+        var files = ['ca-gregorian.json', 'numbers.json', 'timeZoneNames.json'];
+        if (name === 'ar') {
+            files.push('numberingSystems.json');
+        }
+        var loader = ej.base.loadCldr;
+        var loadCulture = function (prop) {
+            var val, ajax;
+            if (name === 'ar' && prop === files.length - 1) {
+                ajax = new ej.base.Ajax(location.origin + location.pathname + '/../../lib/cldr-data/supplemental/' + files[prop], 'GET', false);
+            } else {
+                ajax = new ej.base.Ajax(location.origin + location.pathname + '/../../lib/cldr-data/main/' + name + '/' + files[prop], 'GET', false);
+            }
+            ajax.onSuccess = function (value) {
+                val = value;
+            };
+            ajax.send();
+            loader(JSON.parse(val));
+        };
+        for (var prop = 0; prop < files.length; prop++) {
+            loadCulture(prop);
+        }
+    }
+
+</script>
