@@ -27,8 +27,13 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         datepicker = document.getElementById('datepicker').ej2_instances[0];
+
+        ej.base.setCulture('el');
+        ej.base.setCurrencyCode('EUR');
+        loadCultureFiles('el');
+      
+
         var L10n = ej.base.L10n;
-        var setCulture = new ej.base.setCulture();
         L10n.load({
             'el': {
                 'datepicker': {
@@ -37,21 +42,33 @@
                 }
             }
         });
-        setCulture('fr-BE');
-        loadCultureFiles('el');
-        datepicker.locale = 'el';
-        // Render the Currency Textbox
+  
         var currency = new ej.inputs.NumericTextBox({
             
-            locale:'el-GR',
+            format:'C',
             value: 100
         });
         currency.appendTo('#currency');
 
     });
-
+    function loadCultureFiles2(name) {       //for number format translations 
+        var files = ['numbers.json', 'timeZoneNames.json', 'currencies.json', 'ca-gregorian.json']; 
+        var loadCulture = function (prop) { 
+            var val, ajax; 
+            ajax = new ej.base.Ajax(location.origin + '/../../lib/cldr-data/main/' + name + '/' + files[prop], 'GET', true); 
+            ajax.onSuccess = function (value) { 
+                val = value; 
+                ej.base.loadCldr(JSON.parse(val)); 
+            }; 
+            ajax.send(); 
+            ej.base.setCulture('pt'); 
+        }; 
+        for (var prop = 0; prop < files.length; prop++) { 
+            loadCulture(prop); 
+        } 
+    } 
     function loadCultureFiles(name) {
-        var files = ['ca-gregorian.json', 'numbers.json', 'timeZoneNames.json'];
+        var files = ['ca-gregorian.json', 'numbers.json', 'timeZoneNames.json', 'currencies.json'];
         if (name === 'ar') {
             files.push('numberingSystems.json');
         }
